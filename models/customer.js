@@ -19,7 +19,7 @@ const customerSchema = mongoose.Schema({
         require:[true,'please enter the location']
     },
     gender:{
-        type: Number,
+        type: String,
         require:[true,'please enter your gender']
     },
 })
