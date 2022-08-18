@@ -29,6 +29,8 @@ app.use('/api/item', require('./routes/item'))
 
 //find  same location
 app.use('/api/customer', require('./routes/customer'))
+//find  find by color
+app.use('/api/item', require('./routes/item'))
 
 
 app.listen(port , ()=>{

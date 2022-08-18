@@ -10,6 +10,7 @@ const item = async (req, res) => {
         const item = await Item.create({
             itemno,
             itemname,
+            color,
             weight,
             expire_date:moment().format(expire_date),
             price,
@@ -19,6 +20,7 @@ const item = async (req, res) => {
             res.status(201).json({
                 itemno: item.itemno,
                 itemname: item.itemname,
+                color: item.color,
                 weight: item.weight,
                 expire_date: item.expire_date,
                 price: item.price,
@@ -44,9 +46,20 @@ const deleteitem =async(req,res) =>{
         console.log("error",error);
     }
 }
+// @desc  add customer
+// @rout  POST /api/item/delete
+const color =async(req,res) =>{
+    try {
+        const item =await Item.find({ color: { $in: ["black", "white","brown"]}});
+        res.status(200).json(item)
+    } catch (error) {
+      res.status(401).json(error)
+    }
+}
 
 
 module.exports = {
     item,
-    deleteitem
+    deleteitem,
+    color
 }

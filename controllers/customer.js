@@ -1,7 +1,7 @@
 const Customer = require('../models/customer')
 
 // @desc  add customer
-// @rout  POST /api/user/
+// @rout  POST /api/customer/
 const customer = async (req, res) => {
 
     try {
