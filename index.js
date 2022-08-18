@@ -25,10 +25,10 @@ app.use('/api/cust_item', require('./routes/customerItem'))
 
 
 //delete item
-app.use('/api/item/', require('./routes/item'))
+app.use('/api/item', require('./routes/item'))
 
 //find  same location
-app.use('/api/item/', require('./routes/customer'))
+app.use('/api/customer', require('./routes/customer'))
 
 
 app.listen(port , ()=>{

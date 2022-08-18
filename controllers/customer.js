@@ -38,10 +38,12 @@ const customer = async (req, res) => {
 // @desc  add customer
 // @rout  POST /api/customerd/findcustomer
 const findcustomer =async(req,res) =>{
+    const {place} =req.body
     try {
-       
+        const item =await Customer.find({location:place},{cust_name:1 ,_id:0})
+        res.status(200).json(item)
     } catch (error) {
-     
+      res.status(401).json(error)
     }
 }
 
