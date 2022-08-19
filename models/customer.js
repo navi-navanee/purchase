@@ -11,7 +11,7 @@ const customerSchema = mongoose.Schema({
         require:[true,'please enter your user name']
     },
     cust_phone:{
-        type: Number,
+        type: String,
         require:[true,'please enter your phoneNumber']
     },
     location:{

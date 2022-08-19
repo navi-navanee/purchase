@@ -1,10 +1,11 @@
 const express = require('express')
-const { item, deleteitem, color } = require('../controllers/item')
+const { item, deleteitem, colors, weight } = require('../controllers/item')
 
 const router =express.Router()
 
 router.post('/',item)
 router.delete('/delete',deleteitem)
-router.get('/color',color)
+router.get('/color',colors)
+router.get('/weight',weight)
 
 module.exports = router

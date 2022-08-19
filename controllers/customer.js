@@ -47,8 +47,22 @@ const findcustomer =async(req,res) =>{
     }
 }
 
+// @desc  add customer
+// @rout  POST /api/customerd/findcustomer
+const findnumber =async(req,res) =>{
+
+    try {
+        // const item =await Customer.find({cust_phone:{$regex:99}})
+        const item =await Customer.find({"cust_phone":{$regex:/^99/}})
+        res.status(200).json(item)
+    } catch (error) {
+      res.status(401).json(error)
+    }
+}
+
 
 module.exports = {
     customer,
-    findcustomer
+    findcustomer,
+    findnumber
 }

@@ -5,14 +5,14 @@ const Item = require('../models/item')
 // @rout  POST /api/item/
 const item = async (req, res) => {
     try {
-        const { itemno, itemname, weight, expire_date, price ,shop_name } = req.body
+        const { itemno, itemname, color, weight, expire_date, price, shop_name } = req.body
 
         const item = await Item.create({
             itemno,
             itemname,
             color,
             weight,
-            expire_date:moment().format(expire_date),
+            expire_date: moment().format(expire_date),
             price,
             shop_name,
         })
@@ -24,7 +24,7 @@ const item = async (req, res) => {
                 weight: item.weight,
                 expire_date: item.expire_date,
                 price: item.price,
-                shop_name: item.shop_name,      
+                shop_name: item.shop_name,
             })
         }
         else {
@@ -32,28 +32,47 @@ const item = async (req, res) => {
             res.send("errorr")
         }
     } catch (error) {
-        console.log("error",error);
+        console.log("error", error);
     }
 }
 
 // @desc  add customer
 // @rout  POST /api/item/delete
-const deleteitem =async(req,res) =>{
+const deleteitem = async (req, res) => {
     try {
-        const item =await Item.deleteMany({"price":{$gte:50000}})
-        res.status(200).json({msg:"items deleated successsfully"})
+        const item = await Item.deleteMany({ "price": { $gte: 50000 } })
+        res.status(200).json({ msg: "items deleated successsfully" })
     } catch (error) {
-        console.log("error",error);
+        console.log("error", error);
     }
 }
 // @desc  add customer
 // @rout  POST /api/item/delete
-const color =async(req,res) =>{
+const colors = async (req, res) => {
     try {
-        const item =await Item.find({ color: { $in: ["black", "white","brown"]}});
+        const item = await Item.find({ $or: [{ color: "black" }, { color: "white" }, { color: "brown" }] });
+
         res.status(200).json(item)
     } catch (error) {
-      res.status(401).json(error)
+        res.status(401).json(error)
+    }
+}
+
+
+// @desc  add customer
+// @rout  POST /api/item/delete
+const weight = async (req, res) => {
+    try {
+        const item = await Item.aggregate(
+            [
+                { $sort: { weight: 1 } },
+                { $limit: 1 }
+            ]
+        )
+
+        res.status(200).json(item)
+    } catch (error) {
+        res.status(401).json(error)
     }
 }
 
@@ -61,5 +80,6 @@ const color =async(req,res) =>{
 module.exports = {
     item,
     deleteitem,
-    color
+    colors,
+    weight
 }

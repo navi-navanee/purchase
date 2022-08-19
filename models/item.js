@@ -10,6 +10,10 @@ const item = mongoose.Schema({
         type: String,
         require:[true,'please enter itemName']
     },
+    color:{
+        type: String,
+        require:[true,'please enter color']
+    },
     weight:{
         type: Number,
         require:[true,'please enter the weight']
