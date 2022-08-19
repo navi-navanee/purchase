@@ -7,12 +7,12 @@ const cuItem = async (req, res) => {
 
     try {
         const { cno, itemno, quantity_purchased, date_purchase } = req.body
-        console.log("helooo",req.body);
+        console.log("helooo", req.body);
         const cuItem = await Cu_item.create({
             cno,
             itemno,
             quantity_purchased,
-            date_purchase:moment().format(date_purchase),
+            date_purchase: moment().format(date_purchase),
         })
         if (cuItem) {
             res.status(201).json({
@@ -22,7 +22,7 @@ const cuItem = async (req, res) => {
                 date_purchase: cuItem.date_purchase,
             })
         }
-    
+
         else {
             res.status(400)
             res.send("errorrrr")
@@ -30,9 +30,57 @@ const cuItem = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-   
+
 }
+
+// @desc  the customer with maximum number of purchase
+// @rout  get /api/cuItem/maxPurchase
+const maxPurchase = async (req, res) => {
+    try {
+        const item = await Cu_item.aggregate(
+            [
+                { $sort: { quantity_purchased: -1 } },
+                { $limit: 1 }
+            ]
+        )
+        res.status(200).json(item)
+    } catch (error) {
+        console.log("error", error);
+    }
+}
+
+// @desc  to display the total value for each item
+// @rout  get /api/cuItem/totalvalue
+const totalvalue = async (req, res) => {
+    try {
+        const item = await Cu_item.aggregate(
+            [
+                {
+                    $lookup: {
+                        from: "items",
+                        localField: "itemno",
+                        foreignField: "itemno",
+                        as: "final"
+                    }
+                },
+
+                {
+                    $unwind: "$final"
+                },
+                {
+                    $project: { itemno: 1, quantity_purchased: 1, total: { $multiply: ["$quantity_purchased", "$final.price"] } }
+                }
+            ]
+        )
+        res.status(200).json(item)
+    } catch (error) {
+        console.log("error", error);
+    }
+}
+
 
 module.exports = {
     cuItem,
+    maxPurchase,
+    totalvalue
 }

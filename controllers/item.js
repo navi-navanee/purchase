@@ -77,9 +77,22 @@ const weight = async (req, res) => {
 }
 
 
+// @desc  items that expires in next month
+// @rout  POST /api/item/date
+const date = async (req, res) => {
+    try {
+        const item = await Item.find({expire_date:{$gte:moment("2022-09-01"),$lt:moment("2022-10-01")}})
+        res.status(200).json(item)
+    } catch (error) {
+        res.status(401).json(error)
+    }
+}
+
+
 module.exports = {
     item,
     deleteitem,
     colors,
-    weight
+    weight,
+    date
 }

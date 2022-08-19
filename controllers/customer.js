@@ -3,7 +3,6 @@ const Customer = require('../models/customer')
 // @desc  add customer
 // @rout  POST /api/customer/
 const customer = async (req, res) => {
-
     try {
         const { cno, cust_name, cust_phone, location, gender } = req.body
         console.log("helooo", req.body);
@@ -23,7 +22,6 @@ const customer = async (req, res) => {
                 gender: customer.gender,
             })
         }
-
         else {
             res.status(400)
             res.send("errorrrr")
@@ -31,35 +29,31 @@ const customer = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-
 }
 
-
-// @desc  add customer
+// @desc  find the customer with same location
 // @rout  POST /api/customerd/findcustomer
-const findcustomer =async(req,res) =>{
-    const {place} =req.body
+const findcustomer = async (req, res) => {
+    const { place } = req.body
     try {
-        const item =await Customer.find({location:place},{cust_name:1 ,_id:0})
+        const item = await Customer.find({ location: place }, { cust_name: 1, _id: 0 })
         res.status(200).json(item)
     } catch (error) {
-      res.status(401).json(error)
+        res.status(401).json(error)
     }
 }
 
-// @desc  add customer
+// @desc  find customer with number starting with 99
 // @rout  POST /api/customerd/findcustomer
-const findnumber =async(req,res) =>{
+const findnumber = async (req, res) => {
 
     try {
-        // const item =await Customer.find({cust_phone:{$regex:99}})
-        const item =await Customer.find({"cust_phone":{$regex:/^99/}})
+        const item = await Customer.find({ "cust_phone": { $regex: /^99/ } })
         res.status(200).json(item)
     } catch (error) {
-      res.status(401).json(error)
+        res.status(401).json(error)
     }
 }
-
 
 module.exports = {
     customer,
