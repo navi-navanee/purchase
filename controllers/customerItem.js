@@ -79,8 +79,46 @@ const totalvalue = async (req, res) => {
 }
 
 
+// @desc  Display total price item wise
+// @rout  get /api/cuItem/itemtotal
+const itemtotal = async (req, res) => {
+    try {
+        const item = await Cu_item.aggregate(
+            [
+                {
+                    $lookup: {
+                        from: "items",
+                        localField: "itemno",
+                        foreignField: "itemno",
+                        as: "final"
+                    }
+                },
+                {
+                    $unwind: "$final"
+                },
+                {
+                    $project: { itemname: '$final.itemname', quantity_purchased: 1, total: { $multiply: ["$quantity_purchased", "$final.price"] } }
+                },
+                {
+                    $group: {
+                        _id: "$itemname",
+                        count: {
+                            $sum: "$total"
+                        }
+
+                    }
+                }
+            ]
+        )
+        res.status(200).json(item)
+    } catch (error) {
+        console.log("error", error);
+    }
+}
+
 module.exports = {
     cuItem,
     maxPurchase,
-    totalvalue
+    totalvalue,
+    itemtotal
 }
