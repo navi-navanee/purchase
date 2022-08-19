@@ -18,8 +18,6 @@ app.use('/api/item', require('./routes/item'))
 //add cust_item
 app.use('/api/cust_item', require('./routes/customerItem'))
 
-
-
 app.listen(port, () => {
     console.log(`server start on the port ${port}`);
 })

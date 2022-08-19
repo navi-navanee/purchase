@@ -81,7 +81,7 @@ const weight = async (req, res) => {
 // @rout  POST /api/item/date
 const date = async (req, res) => {
     try {
-        const item = await Item.find({expire_date:{$gte:moment("2022-09-01"),$lt:moment("2022-10-01")}})
+        const item = await Item.find({ expire_date: { $gte: moment("2022-09-01"), $lt: moment("2022-10-01") } })
         res.status(200).json(item)
     } catch (error) {
         res.status(401).json(error)
@@ -89,10 +89,50 @@ const date = async (req, res) => {
 }
 
 
+// @desc  List name of items, customer details with quantity purchased.
+// @rout  get /api/cuItem/itemtotal
+const itempurchase = async (req, res) => {
+    try {
+        const item = await Item.aggregate(
+            [
+                {
+                    $lookup: {
+                        from: "custitems",
+                        localField: "itemno",
+                        foreignField: "itemno",
+                        as: "final"
+                    }
+                },
+                {
+                    $unwind: "$final"
+                },
+                {
+                    $lookup: {
+                        from: "customers",
+                        localField: "final.cno",
+                        foreignField: "cno",
+                        as: "customer"
+                    }
+                },
+                {
+                    $project: { itemname: 1, quantity_purchased:  '$final.quantity_purchased', customerdetails:'$customer' }
+                },
+              
+            ]
+        )
+        res.status(200).json(item)
+    } catch (error) {
+        console.log("error", error);
+    }
+}
+
+
+
 module.exports = {
     item,
     deleteitem,
     colors,
     weight,
-    date
+    date,
+    itempurchase
 }

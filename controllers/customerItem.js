@@ -102,10 +102,9 @@ const itemtotal = async (req, res) => {
                 {
                     $group: {
                         _id: "$itemname",
-                        count: {
+                        sum: {
                             $sum: "$total"
                         }
-
                     }
                 }
             ]
