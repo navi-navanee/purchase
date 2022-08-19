@@ -1,7 +1,7 @@
 const moment = require('moment')
 const Item = require('../models/item')
 
-// @desc  add customer
+// @desc  add item
 // @rout  POST /api/item/
 const item = async (req, res) => {
     try {
@@ -36,8 +36,8 @@ const item = async (req, res) => {
     }
 }
 
-// @desc  add customer
-// @rout  POST /api/item/delete
+// @desc  deleate the iteam which price more than 50000
+// @rout  POST /api/item/deleteitem
 const deleteitem = async (req, res) => {
     try {
         const item = await Item.deleteMany({ "price": { $gte: 50000 } })
@@ -46,8 +46,8 @@ const deleteitem = async (req, res) => {
         console.log("error", error);
     }
 }
-// @desc  add customer
-// @rout  POST /api/item/delete
+// @desc  show the items with the color balck,white , brown
+// @rout  POST /api/item/colors
 const colors = async (req, res) => {
     try {
         const item = await Item.find({ $or: [{ color: "black" }, { color: "white" }, { color: "brown" }] });
@@ -59,8 +59,8 @@ const colors = async (req, res) => {
 }
 
 
-// @desc  add customer
-// @rout  POST /api/item/delete
+// @desc  sort the list with the weight
+// @rout  POST /api/item/weight
 const weight = async (req, res) => {
     try {
         const item = await Item.aggregate(
@@ -90,7 +90,7 @@ const date = async (req, res) => {
 
 
 // @desc  List name of items, customer details with quantity purchased.
-// @rout  get /api/cuItem/itemtotal
+// @rout  get /api/item/itempurchase
 const itempurchase = async (req, res) => {
     try {
         const item = await Item.aggregate(

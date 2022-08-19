@@ -44,7 +44,7 @@ const findcustomer = async (req, res) => {
 }
 
 // @desc  find customer with number starting with 99
-// @rout  POST /api/customerd/findcustomer
+// @rout  POST /api/customerd/findnumber
 const findnumber = async (req, res) => {
 
     try {

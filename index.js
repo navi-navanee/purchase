@@ -9,14 +9,15 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-//add customer
+//customer
 app.use('/api/customer', require('./routes/customer'))
 
-//add item
+//item
 app.use('/api/item', require('./routes/item'))
 
-//add cust_item
+//cust_item
 app.use('/api/cust_item', require('./routes/customerItem'))
+
 
 app.listen(port, () => {
     console.log(`server start on the port ${port}`);

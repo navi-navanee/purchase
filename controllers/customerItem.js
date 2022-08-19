@@ -78,7 +78,6 @@ const totalvalue = async (req, res) => {
     }
 }
 
-
 // @desc  Display total price item wise
 // @rout  get /api/cuItem/itemtotal
 const itemtotal = async (req, res) => {
