@@ -1,5 +1,5 @@
 const express = require('express')
-const { item, deleteitem, colors, weight, date, itempurchase } = require('../controllers/item')
+const { item, deleteitem, colors, weight, date, itempurchase, itemfind } = require('../controllers/item')
 
 const router = express.Router()
 
@@ -20,5 +20,8 @@ router.get('/date', date)
 
 // @desc  List name of items, customer details with quantity purchased.
 router.get('/itempurchase', itempurchase)
+
+// @desc  find the item that lies between p and s
+router.get('/itemfind', itemfind)
 
 module.exports = router

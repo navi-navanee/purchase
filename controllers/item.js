@@ -115,9 +115,9 @@ const itempurchase = async (req, res) => {
                     }
                 },
                 {
-                    $project: { itemname: 1, quantity_purchased:  '$final.quantity_purchased', customerdetails:'$customer' }
+                    $project: { itemname: 1, quantity_purchased: '$final.quantity_purchased', customerdetails: '$customer' }
                 },
-              
+
             ]
         )
         res.status(200).json(item)
@@ -127,6 +127,23 @@ const itempurchase = async (req, res) => {
 }
 
 
+// @desc  find the item that lies between p and s
+// @rout  POST /api/item/itemfind
+
+const itemfind = async (req, res) => {
+    try {
+        const item = await Item.find({
+            $and: [
+                { itemname: { $regex: /^p/i } },
+                { itemname: { $regex: /s$/ } }
+            ]
+        })
+        res.status(200).json(item)
+    } catch (error) {
+        res.status(401).json(error)
+    }
+}
+
 
 module.exports = {
     item,
@@ -134,5 +151,6 @@ module.exports = {
     colors,
     weight,
     date,
-    itempurchase
+    itempurchase,
+    itemfind
 }
